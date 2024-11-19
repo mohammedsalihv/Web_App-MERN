@@ -16,6 +16,7 @@ mongoose
 
 const app = express();
 
+app.use(express.json())
 app.listen(2000, () => {
   console.log('Server starting on 2000 port');
 });
