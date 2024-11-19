@@ -1,21 +1,23 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-dotenv.config()
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import userRoutes from './routes/user.route.js'; // Added `.js` extension
 
+dotenv.config();
 
-
-mongoose.connect(process.env.MONGO)
-  .then(()=>{
+mongoose
+  .connect(process.env.MONGO)
+  .then(() => {
     console.log('Connected to DB');
   })
-  .catch((error)=>{
-     console.log(error);
-  })
+  .catch((error) => {
+    console.log(error);
+  });
 
-const app = express()
+const app = express();
 
+app.listen(2000, () => {
+  console.log('Server starting on 2000 port');
+});
 
-app.listen(2000 , ()=>{
-   console.log('Server starting on 2000 port')
-})
+app.use('/api/user', userRoutes);
