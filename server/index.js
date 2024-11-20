@@ -1,18 +1,15 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import userRoutes from './routes/user.route.js'; // Added `.js` extension
+import userRoutes from './routes/user.route.js'; 
 
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO)
-  .then(() => {
-    console.log('Connected to DB');
+  .connect(process.env.MONGO, {
   })
-  .catch((error) => {
-    console.log(error);
-  });
+  .then(() => console.log('Connected to DB'))
+  .catch((error) => console.log('MongoDB Connection Error:', error));
 
 const app = express();
 
