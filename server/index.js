@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js'; 
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ mongoose
 const app = express();
 
 app.use(express.json())
+app.use(cookieParser())
 app.listen(2000, () => {
   console.log('Server starting on 2000 port');
 });
