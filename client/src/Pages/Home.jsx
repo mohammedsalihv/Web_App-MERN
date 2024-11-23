@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div className="flex items-center justify-center">
       <div className="px-4 py-12 max-w-2xl">
-        <h1 className="text-3xl font-bold mb-5 text-purple-800  ">
+        <h1 className="text-3xl font-bold mb-5 text-sky-950  ">
           Welcome to CRUD Application
         </h1>
         <p>
@@ -16,7 +16,7 @@ const Home = () => {
           side, administrators can view, search, delete, and block users. 
         </p>
         <br />
-        <span className="text-purple-800 font-semibold"> Thank you! 😊</span>
+        <span className="text-sky-950 font-semibold"> Thank you! 😊</span>
       </div>
     </div>
   );

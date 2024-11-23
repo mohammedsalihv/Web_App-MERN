@@ -8,7 +8,7 @@ import { persistor } from "./redux/store.js";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <PersistGate persistor={persistor} loading={null}>
+    <PersistGate persistor={persistor} loading={<div>Loading...</div>}>
       <App />
     </PersistGate>
   </Provider>

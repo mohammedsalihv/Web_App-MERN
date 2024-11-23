@@ -1,17 +1,15 @@
-import  { useState } from "react";
-import { Link , useNavigate} from "react-router-dom";
-import { signInStart ,  signInSuccess , signInFailure } from "../redux/user/userSlice";
-import {useDispatch, useSelector} from 'react-redux'
+import { useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../Components/OAuth";
 
-
-  const SignIn = () => {
-
+const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const {loading , error} = useSelector((state)=> state.user);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
+  const [showError, setShowError] = useState(false); // Manage error visibility
+  const { loading, error } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -21,8 +19,7 @@ import OAuth from "../Components/OAuth";
     e.preventDefault();
 
     try {
-
-      dispatch(signInStart())
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -32,23 +29,26 @@ import OAuth from "../Components/OAuth";
       });
 
       const data = await res.json();
-      
+
       if (data.success === false) {
-        dispatch(signInFailure(data))
+        dispatch(signInFailure(data));
+        setShowError(true); // Show the error
+        setTimeout(() => setShowError(false), 3000); // Hide the error after 3 seconds
         return;
       }
-      dispatch(signInSuccess(data))
-      navigate('/')
+
+      dispatch(signInSuccess(data));
+      navigate("/");
     } catch (error) {
-       dispatch(signInFailure(error))
-       console.log(error);
-       
+      dispatch(signInFailure(error));
+      setShowError(true); // Show the error
+      setTimeout(() => setShowError(false), 3000); // Hide the error after 3 seconds
     }
   };
 
   return (
     <div className="p-3 max-w-sm mx-auto">
-      <h1 className="text-3xl text-center font-serif my-7 mt-8"> Sign In</h1>
+      <h1 className="text-3xl text-center font-serif my-7 mt-8">Sign In</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
@@ -70,7 +70,7 @@ import OAuth from "../Components/OAuth";
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
-        <OAuth/>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-4">
         <p>Dont have an account?</p>
@@ -78,7 +78,11 @@ import OAuth from "../Components/OAuth";
           <span className="text-blue-500">Sign Up</span>
         </Link>
       </div>
-      <p className="text-red-700 mt-5">{error ? error.message || "Something went wrong" : ''}</p>
+      {showError && (
+        <p className="text-red-700 mt-5">
+          {error ? error.message || "Something went wrong" : ""}
+        </p>
+      )}
     </div>
   );
 };
